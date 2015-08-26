@@ -12,23 +12,27 @@ post_template = " {{ service }} Service {{ service.name }} {% if service.overall
 
 class HttpAlert(AlertPlugin):
 
-	name = "AlertHttp"
-	author = "rfernandez"
+        name = "AlertHttp"
+        author = "Oleksandr Nagorodniuk"
 
-	def send_alert(self, service, users, duty_officers):
+        def send_alert(self, service, users, duty_officers):
 
-		self.post_http(service, color='red')
+                c = Context({
+                        'service': service,
+                        'host': settings.WWW_HTTP_HOST,
+                        'scheme': settings.WWW_SCHEME,
+                        })
 
-	def post_http(self, service, color='green'):
-		headers = {'content-type': 'application/json'}
-		data = json.dumps(vars(service))
-		url = 'http://169.254.161.235:3000/alerts'
-		resp = requests.post(url,data=data,headers=headers)
+                message = Template(post_template).render(c)
+                self.post_http(message, service=service)
+
+        def post_http(self, message, service, color='green'):
+                headers = {'content-type': 'text/plain'}
+                data = str(message)
+                url = 'http://someurl.com'
+                resp = requests.post(url,data=data,headers=headers)
 
 class HttpAlertUserData(AlertPluginUserData):
-	name = "HttpAlert Plugin"
-	key = models.CharField(max_length=32, blank=False, verbose_name="User/Group Key")
-	alert_on_warn = models.BooleanField(default=True)
-
-
-
+        name = "HttpAlert Plugin"
+        key = models.CharField(max_length=32, blank=False, verbose_name="User/Group Key")
+        alert_on_warn = models.BooleanField(default=True)
