@@ -4,9 +4,8 @@ Http Alert Cabot
 Forked from https://github.com/colymore/http-alert-cabot with simple changes which are realise different POST "style"
 When we have failed check we are POSTing such POST data:
 
-Service %Your service name% reporting WARNING status: http://cabot.sample.com/service/2/. Checks failing:  %your check name%  (Hosts missing | 0/1 hosts)
+  Service %Your service name% reporting WARNING status: http://cabot.sample.com/service/2/. Checks failing:  %your check name%    (Hosts missing | 0/1 hosts)
 
--
 
 Installation
 ==============
